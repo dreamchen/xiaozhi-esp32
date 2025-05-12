@@ -815,6 +815,7 @@ void Application::SetDeviceState(DeviceState state) {
         case kDeviceStateIdle:
             display->SetStatus(Lang::Strings::STANDBY);
             display->SetEmotion("neutral");
+            display->SetEyes(true);
             audio_processor_->Stop();
 #if CONFIG_USE_WAKE_WORD_DETECT
             wake_word_detect_.StartDetection();

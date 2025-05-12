@@ -21,6 +21,7 @@ protected:
     lv_obj_t* side_bar_ = nullptr;
 
     DisplayFonts fonts_;
+    
 
     void SetupUI();
     virtual bool Lock(int timeout_ms = 0) override;

@@ -188,16 +188,16 @@ def main():
                     os.makedirs(folder)
                     extract_zip(os.path.join(release_dir, name), folder)
                 info = read_binary(folder)
-                target_dir = os.path.join("firmwares", tag)
+                target_dir = os.path.join(os.environ['OSS_UPLOAD_PATH'], "firmwares", tag)
                 info["tag"] = tag
                 info["url"] = os.path.join(os.environ['OSS_BUCKET_URL'], target_dir, "xiaozhi.bin")
                 open(info_path, "w").write(json.dumps(info, indent=4))
                 # upload all file to oss
                 upload_dir_to_oss(folder, target_dir)
-                # read info.json
-                info = json.load(open(info_path))
-                # post info.json to server
-                post_info_to_server(info)
+                # # read info.json
+                # info = json.load(open(info_path))
+                # # post info.json to server
+                # post_info_to_server(info)
 
 
 

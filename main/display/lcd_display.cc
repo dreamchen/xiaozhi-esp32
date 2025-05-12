@@ -10,6 +10,9 @@
 #include "settings.h"
 
 #include "board.h"
+#if CONFIG_USE_EYES_ANIMATION_STYLE
+#include "face_eyes/EyesManager.h"
+#endif
 
 #define TAG "LcdDisplay"
 
@@ -284,7 +287,7 @@ void LcdDisplay::SetupUI() {
     lv_obj_set_style_radius(status_bar_, 0, 0);
     lv_obj_set_style_bg_color(status_bar_, current_theme.background, 0);
     lv_obj_set_style_text_color(status_bar_, current_theme.text, 0);
-    
+
     /* Content - Chat area */
     content_ = lv_obj_create(container_);
     lv_obj_set_style_radius(content_, 0, 0);
@@ -356,6 +359,19 @@ void LcdDisplay::SetupUI() {
     lv_obj_set_style_text_font(battery_label_, fonts_.icon_font, 0);
     lv_obj_set_style_text_color(battery_label_, current_theme.text, 0);
     lv_obj_set_style_margin_left(battery_label_, 5, 0); // 添加左边距，与前面的元素分隔
+
+#if CONFIG_USE_EYES_ANIMATION_STYLE
+    /* eyes_popup */
+    eyes_popup_ = lv_obj_create(screen);
+    lv_obj_set_scrollbar_mode(eyes_popup_, LV_SCROLLBAR_MODE_OFF);
+    lv_obj_set_style_pad_all(eyes_popup_, 0, 0);
+    lv_obj_set_size(eyes_popup_, LV_HOR_RES, LV_VER_RES);
+    lv_obj_set_style_bg_color(eyes_popup_, lv_color_black(), 0);
+    lv_obj_set_style_radius(eyes_popup_, 0, 0);
+    lv_obj_set_style_border_width(eyes_popup_, 0, 0);
+    lv_obj_add_flag(eyes_popup_, LV_OBJ_FLAG_HIDDEN);
+    EyesManager::start(eyes_popup_, {{60, 60}, {120, 60}}, {60, 60, 15}, {40, 40, 10}, false);
+#endif
 
     low_battery_popup_ = lv_obj_create(screen);
     lv_obj_set_scrollbar_mode(low_battery_popup_, LV_SCROLLBAR_MODE_OFF);
@@ -578,7 +594,7 @@ void LcdDisplay::SetupUI() {
     lv_obj_set_style_radius(status_bar_, 0, 0);
     lv_obj_set_style_bg_color(status_bar_, current_theme.background, 0);
     lv_obj_set_style_text_color(status_bar_, current_theme.text, 0);
-    
+
     /* Content */
     content_ = lv_obj_create(container_);
     lv_obj_set_scrollbar_mode(content_, LV_SCROLLBAR_MODE_OFF);
@@ -639,6 +655,19 @@ void LcdDisplay::SetupUI() {
     lv_label_set_text(battery_label_, "");
     lv_obj_set_style_text_font(battery_label_, fonts_.icon_font, 0);
     lv_obj_set_style_text_color(battery_label_, current_theme.text, 0);
+
+#if CONFIG_USE_EYES_ANIMATION_STYLE
+    /* eyes_popup */
+    eyes_popup_ = lv_obj_create(screen);
+    lv_obj_set_scrollbar_mode(eyes_popup_, LV_SCROLLBAR_MODE_OFF);
+    lv_obj_set_style_pad_all(eyes_popup_, 0, 0);
+    lv_obj_set_size(eyes_popup_, LV_HOR_RES, LV_VER_RES);
+    lv_obj_set_style_bg_color(eyes_popup_, lv_color_black(), 0);
+    lv_obj_set_style_radius(eyes_popup_, 0, 0);
+    lv_obj_set_style_border_width(eyes_popup_, 0, 0);
+    lv_obj_add_flag(eyes_popup_, LV_OBJ_FLAG_HIDDEN);
+    EyesManager::start(eyes_popup_, {{60, 60}, {120, 60}}, {60, 60, 15}, {40, 40, 10}, false);
+#endif
 
     low_battery_popup_ = lv_obj_create(screen);
     lv_obj_set_scrollbar_mode(low_battery_popup_, LV_SCROLLBAR_MODE_OFF);
