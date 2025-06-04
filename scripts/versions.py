@@ -101,7 +101,7 @@ def read_binary(dir_path):
     assert offset < len(data), "offset is out of bounds"
     
     # extract bin file
-    bin_path = os.path.join(dir_path, "xiaozhi.bin")
+    bin_path = os.path.join(dir_path, "xiaoyou.bin")
     if not os.path.exists(bin_path):
         print("extract bin file to", bin_path)
         open(bin_path, "wb").write(data)
@@ -188,16 +188,16 @@ def main():
                     os.makedirs(folder)
                     extract_zip(os.path.join(release_dir, name), folder)
                 info = read_binary(folder)
-                target_dir = os.path.join("firmwares", tag)
+                target_dir = os.path.join(os.environ['OSS_UPLOAD_PATH'], "firmwares", tag)
                 info["tag"] = tag
-                info["url"] = os.path.join(os.environ['OSS_BUCKET_URL'], target_dir, "xiaozhi.bin")
+                info["url"] = os.path.join(os.environ['OSS_BUCKET_URL'], target_dir, "xiaoyou.bin")
                 open(info_path, "w").write(json.dumps(info, indent=4))
-                # upload all file to oss
-                upload_dir_to_oss(folder, target_dir)
-                # read info.json
-                info = json.load(open(info_path))
-                # post info.json to server
-                post_info_to_server(info)
+                # # upload all file to oss
+                # upload_dir_to_oss(folder, target_dir)
+                # # read info.json
+                # info = json.load(open(info_path))
+                # # post info.json to server
+                # post_info_to_server(info)
 
 
 

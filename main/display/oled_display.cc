@@ -8,6 +8,7 @@
 #include <esp_log.h>
 #include <esp_err.h>
 #include <esp_lvgl_port.h>
+#include "face_eyes/EyesManager.h"
 
 #define TAG "OledDisplay"
 
@@ -211,6 +212,19 @@ void OledDisplay::SetupUI_128x64() {
     battery_label_ = lv_label_create(status_bar_);
     lv_label_set_text(battery_label_, "");
     lv_obj_set_style_text_font(battery_label_, fonts_.icon_font, 0);
+
+#if CONFIG_USE_EYES_ANIMATION_STYLE
+    /* eyes_popup */
+    eyes_popup_ = lv_obj_create(screen);
+    lv_obj_set_scrollbar_mode(eyes_popup_, LV_SCROLLBAR_MODE_OFF);
+    lv_obj_set_style_pad_all(eyes_popup_, 0, 0);
+    lv_obj_set_size(eyes_popup_, LV_HOR_RES, LV_VER_RES);
+    lv_obj_set_style_bg_color(eyes_popup_, lv_color_white(), 0);
+    lv_obj_set_style_radius(eyes_popup_, 0, 0);
+    lv_obj_set_style_border_width(eyes_popup_, 0, 0);
+    lv_obj_add_flag(eyes_popup_, LV_OBJ_FLAG_HIDDEN);
+    EyesManager::start(eyes_popup_, {{32, 16}, {64, 16}}, {32, 32, 8}, {24, 24, 6}, true);
+#endif
 
     low_battery_popup_ = lv_obj_create(screen);
     lv_obj_set_scrollbar_mode(low_battery_popup_, LV_SCROLLBAR_MODE_OFF);

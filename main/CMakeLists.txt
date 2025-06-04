@@ -193,6 +193,11 @@ file(GLOB BOARD_SOURCES
 )
 list(APPEND SOURCES ${BOARD_SOURCES})
 
+if(CONFIG_USE_EYES_ANIMATION_STYLE)
+    list(APPEND SOURCES "display/face_eyes/Eye.cc"
+                        "display/face_eyes/EyesManager.cc"
+                        )
+endif()
 if(CONFIG_USE_AUDIO_PROCESSOR)
     list(APPEND SOURCES "audio_processing/afe_audio_processor.cc")
 else()

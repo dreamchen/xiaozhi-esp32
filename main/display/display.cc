@@ -56,6 +56,9 @@ Display::~Display() {
     if( low_battery_popup_ != nullptr ) {
         lv_obj_del(low_battery_popup_);
     }
+    if( eyes_popup_ != nullptr ) {
+        lv_obj_del(eyes_popup_);
+    }
     if (pm_lock_ != nullptr) {
         esp_pm_lock_delete(pm_lock_);
     }
@@ -247,4 +250,16 @@ void Display::SetTheme(const std::string& theme_name) {
     current_theme_name_ = theme_name;
     Settings settings("display", true);
     settings.SetString("theme", theme_name);
+}
+
+void Display::SetEyes(const bool show_eyes) {
+    DisplayLockGuard lock(this);
+    if (eyes_popup_ == nullptr) {
+        return;
+    }
+    if (show_eyes) {
+        lv_obj_clear_flag(eyes_popup_, LV_OBJ_FLAG_HIDDEN);
+    } else {
+        lv_obj_add_flag(eyes_popup_, LV_OBJ_FLAG_HIDDEN);
+    }
 }
